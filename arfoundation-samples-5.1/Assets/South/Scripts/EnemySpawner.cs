@@ -32,6 +32,7 @@ public class EnemySpawner : MonoBehaviour
     {
         Vector3 randomPoint = RandomPointInCircle();
         Instantiate(enemy, randomPoint, Quaternion.identity);
+        enemy.GetComponent<EnemyBasieScript>().player = this.gameObject;
         Debug.Log("Enemy spawned at: " + randomPoint);
     }
 

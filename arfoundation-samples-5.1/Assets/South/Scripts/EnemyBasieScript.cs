@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyBasieScript : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    public GameObject player = null;
 
     private Rigidbody rb;
 
@@ -17,6 +17,8 @@ public class EnemyBasieScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Vector3 direction = this.transform.position - player.transform.position;
+
+        rb.velocity = direction;
     }
 }
