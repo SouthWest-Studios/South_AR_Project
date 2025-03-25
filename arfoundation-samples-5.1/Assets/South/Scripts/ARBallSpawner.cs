@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class ARBallController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class ARBallController : MonoBehaviour
 
     public float moveSpeed = 1f;    // Velocidad a la que se moverá la bola hacia adelante
 
+    public GameObject canvas;
     void Start()
     {
         // Obtener la cámara AR
@@ -36,5 +38,17 @@ public class ARBallController : MonoBehaviour
             spawnedBall = Instantiate(ballPrefab, arCamera.transform);
             spawnedBall.transform.parent = null;
         }
+    }
+
+    public void ShowCanvas()
+    {
+        canvas.SetActive(true); // Activar el canvas
+        StartCoroutine(HideCanvasAfterDelay(1f)); // Llamar a la coroutine para ocultarlo después de 1 segundo
+    }
+
+    IEnumerator HideCanvasAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); // Espera el tiempo especificado
+        canvas.SetActive(false); // Desactivar el canvas
     }
 }

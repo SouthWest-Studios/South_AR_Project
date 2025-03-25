@@ -176,9 +176,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Externo/Scenes/Meta/MetaDisplayRefreshRate.unity
     guid: 07970a1a9455f4309b8e99b1c88daa98
-  - enabled: 1
+  - enabled: 0
     path: Assets/South/Scenes/MartiScene.unity
     guid: 1f7873d72baeb0546be6c527ad8bcf63
+  - enabled: 1
+    path: Assets/South/Scenes/AleixScene.unity
+    guid: 81143b48c1d80b14da3bc3d021c5827b
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: c52d3bb36b4c86f47af54ab9c7a02589,
       type: 2}

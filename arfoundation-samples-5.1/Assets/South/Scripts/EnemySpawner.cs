@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject[] enemies;
     public float radius = 10f;
     private Vector3 initialPosition;
-    private float spawnTime = 2;
+    private float spawnTime = 5;
     private float spawnTimeCounter = 0;
     private float heightRange = 6;
     public GameObject camara = null;
@@ -35,7 +35,6 @@ public class EnemySpawner : MonoBehaviour
         Vector3 randomPoint = RandomPointInCircle();
         randomPoint.y = Random.Range(camara.gameObject.transform.position.y - heightRange, heightRange + camara.gameObject.transform.position.y);
         Instantiate(enemy, randomPoint, Quaternion.identity);
-        enemy.GetComponent<EnemyBasieScript>().player = camara.gameObject;
         Debug.Log("Enemy spawned at: " + randomPoint);
     }
 
