@@ -21,12 +21,7 @@ public class ARBallController : MonoBehaviour
 
     void Update()
     {
-        // Si la bola fue instanciada, moverla hacia adelante
-        if (spawnedBall != null)
-        {
-            // Mover la bola en la dirección en la que está mirando la cámara
-            spawnedBall.transform.Translate(spawnedBall.transform.forward * moveSpeed * Time.deltaTime);
-        }
+
     }
 
     void SpawnBall()
@@ -38,8 +33,8 @@ public class ARBallController : MonoBehaviour
             Vector3 spawnPosition = arCamera.transform.position + arCamera.transform.forward * 2f; // 2f es la distancia frente a la cámara
 
             // Instanciar la bola en esa posición
-            spawnedBall = Instantiate(ballPrefab, spawnPosition, Quaternion.identity);
-            spawnedBall.transform.rotation = Quaternion.Euler(0, arCamera.transform.rotation.y, 0);
+            spawnedBall = Instantiate(ballPrefab, arCamera.transform);
+            spawnedBall.transform.parent = null;
         }
     }
 }
