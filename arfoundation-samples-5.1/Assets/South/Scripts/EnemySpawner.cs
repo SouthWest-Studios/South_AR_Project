@@ -6,14 +6,16 @@ using UnityEngine.UIElements;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] enemies;
-    private int radius = 50;
+    public float radius = 10f;
     private Vector3 initialPosition;
     private float spawnTime = 2;
     private float spawnTimeCounter = 0;
+    private float heightRange = 6;
+    public GameObject camara = null;
     // Start is called before the first frame update
     void Start()
     {
-        initialPosition = this.gameObject.transform.position;
+        initialPosition = camara.gameObject.transform.position;
     }
 
     // Update is called once per frame
@@ -31,8 +33,9 @@ public class EnemySpawner : MonoBehaviour
     void SpawnEnemy(GameObject enemy)
     {
         Vector3 randomPoint = RandomPointInCircle();
+        randomPoint.y = Random.Range(camara.gameObject.transform.position.y - heightRange, heightRange + camara.gameObject.transform.position.y);
         Instantiate(enemy, randomPoint, Quaternion.identity);
-        enemy.GetComponent<EnemyBasieScript>().player = this.gameObject;
+        enemy.GetComponent<EnemyBasieScript>().player = camara.gameObject;
         Debug.Log("Enemy spawned at: " + randomPoint);
     }
 

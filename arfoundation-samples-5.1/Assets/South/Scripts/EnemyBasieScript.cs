@@ -9,6 +9,8 @@ public class EnemyBasieScript : MonoBehaviour
 
     private Rigidbody rb;
 
+    public float speed = 0.5f;
+
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -17,8 +19,11 @@ public class EnemyBasieScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 direction = this.transform.position - player.transform.position;
+        if (player != null)
+        {
+            Vector3 direction = player.transform.position - this.transform.position;
 
-        rb.velocity = direction;
+            rb.velocity = direction * speed;
+        }
     }
 }
