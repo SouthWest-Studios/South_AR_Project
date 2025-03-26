@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ARBallController : MonoBehaviour
 {
     public GameObject ballPrefab;   // Prefab de la bola
-    public Button spawnButton;      // Botón para aparecer la bola
     private GameObject spawnedBall; // Bola instanciada
     private Camera arCamera;        // Cámara AR
 
@@ -18,7 +18,7 @@ public class ARBallController : MonoBehaviour
         arCamera = Camera.main;  // Si solo tienes una cámara principal, esta es la AR Camera
 
         // Asignar el listener al botón para crear la bola al pulsar
-        spawnButton.onClick.AddListener(SpawnBall);
+        //spawnButton.onClick.AddListener(SpawnBall);
     }
 
     void Update()
@@ -38,6 +38,40 @@ public class ARBallController : MonoBehaviour
             spawnedBall = Instantiate(ballPrefab, spawnPosition, arCamera.transform.rotation);
             spawnedBall.transform.parent = null;
         }
+    }
+
+    public void KilEnemiesByType(int i)
+    {
+        KillEnemiesByType((EnemyType)i);
+    }
+
+    public void KillEnemiesByType(EnemyType type)
+    {
+        List<GameObject> enemyToDamage = GetEnemiesByType(type);
+
+
+        foreach (GameObject enemy in enemyToDamage)
+        {
+            Destroy(enemy);
+        }
+    }
+
+
+    public List<GameObject> GetEnemiesByType(EnemyType type)
+    {
+        List<GameObject> visibleObjects = new List<GameObject>();
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(arCamera);
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+
+        foreach (Enemy enemy in enemies)
+        {
+            if (GeometryUtility.TestPlanesAABB(planes, enemy.GetComponent<Renderer>().bounds) && enemy.type == type) // Si está dentro del frustum
+            {
+                visibleObjects.Add(enemy.gameObject);
+            }
+        }
+
+        return visibleObjects;
     }
 
     public void ShowCanvas()
