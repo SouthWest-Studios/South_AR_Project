@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class ARBallController : MonoBehaviour
+public class AimARBallSpawner : MonoBehaviour
 {
     public GameObject ballPrefab;   // Prefab de la bola
     public Button spawnButton;      // Botón para aparecer la bola

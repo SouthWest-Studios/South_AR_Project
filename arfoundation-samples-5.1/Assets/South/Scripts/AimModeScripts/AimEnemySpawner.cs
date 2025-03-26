@@ -3,16 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-
-public enum EnemyType
-{
-    Fire = 0,
-    Ice,
-    Wind,
-    Terra
-}
-
-public class EnemySpawner : MonoBehaviour
+public class AimEnemySpawner : MonoBehaviour
 {
     public GameObject[] enemies;
     public float radius = 10f;
@@ -32,25 +23,18 @@ public class EnemySpawner : MonoBehaviour
     {
         if(spawnTimeCounter >= spawnTime)
         {
-            SpawnEnemy();
+            SpawnEnemy(enemies[Random.Range(0, enemies.Length)]);
 
             spawnTimeCounter = 0;
         }
         spawnTimeCounter += Time.deltaTime;
     }
 
-    void SpawnEnemy()
+    void SpawnEnemy(GameObject enemy)
     {
         Vector3 randomPoint = RandomPointInCircle();
         randomPoint.y = Random.Range(camara.gameObject.transform.position.y - heightRange, heightRange + camara.gameObject.transform.position.y);
-
-        EnemyType type = (EnemyType)Random.Range(0, 4);
-
-        //enemyGO.GetComponent<Enemy>().type = (EnemyTypes)index;
-
-        GameObject enemy = enemies[(int)type];
-        GameObject enemyGO = Instantiate(enemy, randomPoint, Quaternion.identity);
-
+        Instantiate(enemy, randomPoint, Quaternion.identity);
         Debug.Log("Enemy spawned at: " + randomPoint);
     }
 

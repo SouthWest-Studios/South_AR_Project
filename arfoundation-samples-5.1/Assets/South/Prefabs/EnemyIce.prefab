@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8083896095577851894}
   - component: {fileID: 63359104581516}
   m_Layer: 0
-  m_Name: BaseEnemy
+  m_Name: EnemyIce
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

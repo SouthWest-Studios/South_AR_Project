@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class AimEnemyBasicScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private GameObject camara = null;
@@ -13,7 +13,13 @@ public class Enemy : MonoBehaviour
 
     private GameObject gameManager;
 
-    public EnemyType type;
+    enum EnemyTypes
+    {
+        Fire = 0,
+        Ice,
+        Air,
+        Terra
+    }
 
     void Start()
     {
