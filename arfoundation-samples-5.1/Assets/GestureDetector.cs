@@ -1,28 +1,66 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GestureDetector : MonoBehaviour
 {
     private float lastTapTime = 0f; // Stores the last tap time
     private Vector2 startTouchPos;  // Stores the starting position of a swipe
     private float doubleTapDelay = 0.3f; // Maximum time between taps to be considered a double tap
+    private Camera mainCamera; // Reference to the main camera
+
+    private LineRenderer lineRenderer; // Line renderer for trail effect
+    private List<Vector3> trailPoints = new List<Vector3>(); // Stores trail points
+    private float trailDuration = 2f; // Duration before trail fades
+    private bool isDrawingTrail = false; // Track if user is actively drawing
+    private GameObject doubleTapEffect; // Object for the double-tap effect
+
+    void Start()
+    {
+        mainCamera = Camera.main; // Get the main camera
+
+        // Create LineRenderer component for trail effect
+        GameObject trailObject = new GameObject("GestureTrail");
+        lineRenderer = trailObject.AddComponent<LineRenderer>();
+        lineRenderer.startWidth = 0.3f; // Increased thickness
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = Color.white * 0.8f; // Light Gray
+        lineRenderer.endColor = Color.white * 0.5f;
+        lineRenderer.positionCount = 0;
+
+        // Create the double-tap effect object
+        doubleTapEffect = new GameObject("DoubleTapEffect");
+        SpriteRenderer effectRenderer = doubleTapEffect.AddComponent<SpriteRenderer>();
+        effectRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        effectRenderer.color = Color.gray;
+        doubleTapEffect.SetActive(false); // Initially, disable the effect
+    }
 
     void Update()
     {
         // Check if there are any touches
         if (Input.touchCount > 0)
         {
-            // Get the first touch
             Touch touch = Input.GetTouch(0);
 
             switch (touch.phase)
             {
-                case TouchPhase.Began: // When the touch begins
+                case TouchPhase.Began:
                     DetectDoubleTap();
                     startTouchPos = touch.position;
+                    trailPoints.Clear();
+                    isDrawingTrail = true;
                     break;
 
-                case TouchPhase.Ended: // When the touch ends, check for swipe
+                case TouchPhase.Moved:
+                    UpdateTrailEffect(touch.position);
+                    break;
+
+                case TouchPhase.Ended:
                     DetectSwipe(touch.position);
+                    isDrawingTrail = false;
+                    StartCoroutine(FadeTrailGradually());
                     break;
             }
 
@@ -34,7 +72,7 @@ public class GestureDetector : MonoBehaviour
 
                 if (touch1.phase == TouchPhase.Began && touch2.phase == TouchPhase.Began)
                 {
-                    startTouchPos = (touch1.position + touch2.position) / 2; // Calculate middle point
+                    startTouchPos = (touch1.position + touch2.position) / 2;
                 }
                 else if (touch1.phase == TouchPhase.Ended && touch2.phase == TouchPhase.Ended)
                 {
@@ -50,7 +88,7 @@ public class GestureDetector : MonoBehaviour
         if (Time.time - lastTapTime < doubleTapDelay)
         {
             Debug.Log("Doble toque detectado");
-            OnDoubleTap();
+            StartCoroutine(ShowDoubleTapEffect(Input.GetTouch(0).position));
         }
         lastTapTime = Time.time;
     }
@@ -58,20 +96,18 @@ public class GestureDetector : MonoBehaviour
     // Detects one-finger swipe gestures
     void DetectSwipe(Vector2 endTouchPos)
     {
-        Vector2 swipeVector = endTouchPos - startTouchPos; // Calculate swipe direction
-        if (swipeVector.magnitude < 50) return; // Ignore small movements
+        Vector2 swipeVector = endTouchPos - startTouchPos;
+        if (swipeVector.magnitude < 50) return;
 
-        if (Mathf.Abs(swipeVector.x) < Mathf.Abs(swipeVector.y)) // Check if swipe is vertical
+        if (Mathf.Abs(swipeVector.x) < Mathf.Abs(swipeVector.y))
         {
             if (swipeVector.y > 0)
             {
                 Debug.Log("Deslizar hacia arriba detectado");
-                OnSwipeUp();
             }
             else
             {
                 Debug.Log("Deslizar hacia abajo detectado");
-                OnSwipeDown();
             }
         }
     }
@@ -79,37 +115,79 @@ public class GestureDetector : MonoBehaviour
     // Detects two-finger swipe up gesture
     void DetectTwoFingerSwipe(Vector2 endTouchPos)
     {
-        Vector2 swipeVector = endTouchPos - startTouchPos; // Calculate swipe direction
-        if (swipeVector.magnitude < 50) return; // Ignore small movements
+        Vector2 swipeVector = endTouchPos - startTouchPos;
+        if (swipeVector.magnitude < 50) return;
 
-        if (swipeVector.y > 0) // Check if swipe is upwards
+        if (swipeVector.y > 0)
         {
             Debug.Log("Deslizar con dos dedos hacia arriba detectado");
-            OnTwoFingerSwipeUp();
         }
     }
 
-    // Callback for single-finger swipe up
-    void OnSwipeUp()
+    // Displays the double tap effect at the tap position
+    IEnumerator ShowDoubleTapEffect(Vector2 tapPosition)
     {
-        Debug.Log("Acción para deslizar hacia arriba");
+        doubleTapEffect.SetActive(true);
+        doubleTapEffect.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(tapPosition.x, tapPosition.y, 10f));
+
+        SpriteRenderer effectRenderer = doubleTapEffect.GetComponent<SpriteRenderer>();
+        float scale = 0.1f;
+        float maxScale = 1.0f;
+
+        // Gradually expand the effect
+        while (scale < maxScale)
+        {
+            scale += Time.deltaTime * 2f; // Speed of expansion
+            doubleTapEffect.transform.localScale = new Vector3(scale, scale, 1f);
+            yield return null;
+        }
+
+        // Fade out effect
+        float fadeDuration = 1f;
+        float timeElapsed = 0f;
+        while (timeElapsed < fadeDuration)
+        {
+            timeElapsed += Time.deltaTime;
+            float alpha = 1f - (timeElapsed / fadeDuration);
+            effectRenderer.color = new Color(1f, 1f, 1f, alpha);
+            yield return null;
+        }
+
+        // Disable the effect after fading
+        doubleTapEffect.SetActive(false);
     }
 
-    // Callback for single-finger swipe down
-    void OnSwipeDown()
+    // Updates the trail effect while swiping
+    void UpdateTrailEffect(Vector2 touchPosition)
     {
-        Debug.Log("Acción para deslizar hacia abajo");
+        Vector3 worldPos = mainCamera.ScreenToWorldPoint(new Vector3(touchPosition.x, touchPosition.y, 10f));
+        trailPoints.Add(worldPos);
+
+        lineRenderer.positionCount = trailPoints.Count;
+        lineRenderer.SetPositions(trailPoints.ToArray());
     }
 
-    // Callback for double tap
-    void OnDoubleTap()
+    // Gradually fades the trail by removing points from the start
+    IEnumerator FadeTrailGradually()
     {
-        Debug.Log("Acción para doble toque");
-    }
+        float time = 0f;
+        while (time < trailDuration && trailPoints.Count > 0)
+        {
+            time += Time.deltaTime;
 
-    // Callback for two-finger swipe up
-    void OnTwoFingerSwipeUp()
-    {
-        Debug.Log("Acción para deslizar con dos dedos hacia arriba");
+            // Remove points from the start of the trail to make it fade progressively
+            int pointsToRemove = Mathf.CeilToInt(trailPoints.Count * (Time.deltaTime / trailDuration));
+            for (int i = 0; i < pointsToRemove && trailPoints.Count > 0; i++)
+            {
+                trailPoints.RemoveAt(0);
+            }
+
+            lineRenderer.positionCount = trailPoints.Count;
+            lineRenderer.SetPositions(trailPoints.ToArray());
+
+            yield return null;
+        }
+
+        lineRenderer.positionCount = 0; // Ensure trail is completely removed
     }
 }
