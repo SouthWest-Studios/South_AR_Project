@@ -9,7 +9,7 @@ public enum EnemyType
     Fire = 0,
     Ice,
     Wind,
-    Terra
+    Earth
 }
 
 public class EnemySpawner : MonoBehaviour

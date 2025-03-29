@@ -88,6 +88,7 @@ public class GestureDetector : MonoBehaviour
         if (Time.time - lastTapTime < doubleTapDelay)
         {
             Debug.Log("Doble toque detectado");
+            GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Earth);
             StartCoroutine(ShowDoubleTapEffect(Input.GetTouch(0).position));
         }
         lastTapTime = Time.time;
@@ -104,10 +105,12 @@ public class GestureDetector : MonoBehaviour
             if (swipeVector.y > 0)
             {
                 Debug.Log("Deslizar hacia arriba detectado");
+                GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Fire);
             }
             else
             {
                 Debug.Log("Deslizar hacia abajo detectado");
+                GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Ice);
             }
         }
     }
@@ -121,6 +124,7 @@ public class GestureDetector : MonoBehaviour
         if (swipeVector.y > 0)
         {
             Debug.Log("Deslizar con dos dedos hacia arriba detectado");
+            GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Wind);
         }
     }
 
