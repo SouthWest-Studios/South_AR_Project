@@ -20,6 +20,11 @@ public class Enemy : MonoBehaviour
         camara = GameObject.Find("Main Camera");
         gameManager = GameObject.Find("GameManager");
         rb = this.GetComponent<Rigidbody>();
+
+        if (MessageManager.Instance != null)
+        {
+            MessageManager.Instance.RegisterEnemy(gameObject);
+        }
     }
 
     // Update is called once per frame
