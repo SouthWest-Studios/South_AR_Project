@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject[] enemies;
     public float radius = 10f;
     private Vector3 initialPosition;
-    private float spawnTime = 5;
+    public float spawnTime = 5;
     private float spawnTimeCounter = 0;
     private float heightRange = 6;
     public GameObject camara = null;
@@ -25,6 +25,7 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         initialPosition = camara.gameObject.transform.position;
+
     }
 
     // Update is called once per frame
@@ -44,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
         Vector3 randomPoint = RandomPointInCircle();
         randomPoint.y = Random.Range(camara.gameObject.transform.position.y - heightRange, heightRange + camara.gameObject.transform.position.y);
 
-        EnemyType type = (EnemyType)Random.Range(0, 4);
+        EnemyType type = (EnemyType)Random.Range(0, enemies.Length);
 
         //enemyGO.GetComponent<Enemy>().type = (EnemyTypes)index;
 
@@ -56,8 +57,8 @@ public class EnemySpawner : MonoBehaviour
 
     Vector3 RandomPointInCircle()
     {
-        float angle = 2 * Mathf.PI * Random.Range(0, 360) / 360;
 
+        float angle = Mathf.PI * Random.Range(0f, 1f);
         float x = initialPosition.x + radius * Mathf.Cos(angle);
         float z = initialPosition.z + radius * Mathf.Sin(angle);
 
