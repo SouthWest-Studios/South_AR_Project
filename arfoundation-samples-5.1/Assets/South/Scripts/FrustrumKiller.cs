@@ -21,6 +21,7 @@ public class FrustrumKiller : MonoBehaviour
         foreach (GameObject enemy in enemyToDamage)
         {
             Destroy(enemy);
+            EnemySpawner.enemiesInGame = EnemySpawner.enemiesInGame - 1;
         }
     }
 

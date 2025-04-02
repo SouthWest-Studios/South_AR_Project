@@ -239,7 +239,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1559907687}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ARBallController, Assembly-CSharp
         m_MethodName: KilEnemiesByType
         m_Mode: 3
@@ -1430,7 +1430,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1559907687}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ARBallController, Assembly-CSharp
         m_MethodName: KilEnemiesByType
         m_Mode: 3
@@ -1543,7 +1543,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1559907687}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ARBallController, Assembly-CSharp
         m_MethodName: KilEnemiesByType
         m_Mode: 3
@@ -1696,7 +1696,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1559907687}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ARBallController, Assembly-CSharp
         m_MethodName: KilEnemiesByType
         m_Mode: 3
@@ -2309,13 +2309,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e399ab15c495ac94492ecae7eeff7cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies:
-  - {fileID: 2574905963696814817, guid: 84984ba3ddc34bf4dbdfc2a8b182fe0e, type: 3}
-  - {fileID: 2574905963696814817, guid: 269d0ef1aa2d18d4dac703a1163e7fd0, type: 3}
-  - {fileID: 2574905963696814817, guid: 8355b4bc07cea9f44a08ca38a99f0b05, type: 3}
-  - {fileID: 2574905963696814817, guid: 4bf40e32aefd49643a22cd2814fa3fa9, type: 3}
   radius: 10
+  spawnTime: 5
   camara: {fileID: 1378129416}
+  Oleada:
+  - cantidadEnemigos: 0
+    velocidadEnemigos: 0
+    spawnRatio: 
+    enemies:
+    - {fileID: 2574905963696814817, guid: 4bf40e32aefd49643a22cd2814fa3fa9, type: 3}
+    - {fileID: 2574905963696814817, guid: 84984ba3ddc34bf4dbdfc2a8b182fe0e, type: 3}
+    - {fileID: 2574905963696814817, guid: 269d0ef1aa2d18d4dac703a1163e7fd0, type: 3}
+    - {fileID: 2574905963696814817, guid: 8355b4bc07cea9f44a08ca38a99f0b05, type: 3}
+  - cantidadEnemigos: 0
+    velocidadEnemigos: 0
+    spawnRatio: 
+    enemies: []
+  - cantidadEnemigos: 0
+    velocidadEnemigos: 0
+    spawnRatio: 
+    enemies: []
+  - cantidadEnemigos: 0
+    velocidadEnemigos: 0
+    spawnRatio: 
+    enemies: []
 --- !u!114 &1559907691
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
         {
             gameManager.GetComponent<ARBallController>().ShowCanvas();
             Destroy(this.gameObject);
-            
+            EnemySpawner.enemiesInGame = EnemySpawner.enemiesInGame - 1;
         }
     }
 }

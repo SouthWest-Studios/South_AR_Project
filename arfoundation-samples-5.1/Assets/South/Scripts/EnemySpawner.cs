@@ -12,32 +12,73 @@ public enum EnemyType
     Earth
 }
 
+[System.Serializable]
+public struct Wave
+{
+    public int cantidadEnemigos;
+    public float velocidadEnemigos;
+    public float spawnRatio;
+    public GameObject[] enemies;
+}
+
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject[] enemies;
+    
     public float radius = 10f;
     private Vector3 initialPosition;
     public float spawnTime = 5;
     private float spawnTimeCounter = 0;
     private float heightRange = 6;
     public GameObject camara = null;
-    // Start is called before the first frame update
+    public Wave[] Oleada;
+    private int currentWaveIndex = -1;
+    private float timeBetweenWaves = 5.0f;
+    private float timeBetweenWavesCounter = 0;
+
+    public static int enemiesInGame;
+    private bool currentWaveRested = false;
+
+
+
+
     void Start()
     {
         initialPosition = camara.gameObject.transform.position;
-
+    
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(spawnTimeCounter >= spawnTime)
-        {
-            SpawnEnemy();
 
-            spawnTimeCounter = 0;
+        if (timeBetweenWavesCounter >= timeBetweenWaves)
+        {
+            
+            if (spawnTimeCounter >= Oleada[currentWaveIndex].spawnRatio)
+            {
+                enemiesInGame = Oleada[currentWaveIndex].cantidadEnemigos;
+                if (Oleada[currentWaveIndex].cantidadEnemigos > 0)
+                {
+                    SpawnEnemy();
+                    spawnTimeCounter = 0;
+                    Oleada[currentWaveIndex].cantidadEnemigos--;
+                }
+
+                
+            }
+            spawnTimeCounter += Time.deltaTime;
         }
-        spawnTimeCounter += Time.deltaTime;
+        if (enemiesInGame <= 0)
+        {
+            if (!currentWaveRested)
+            {
+                currentWaveIndex++;
+                currentWaveRested = true;
+            }
+            timeBetweenWavesCounter = timeBetweenWavesCounter + Time.deltaTime;
+        }
+
+
     }
 
     void SpawnEnemy()
@@ -45,13 +86,13 @@ public class EnemySpawner : MonoBehaviour
         Vector3 randomPoint = RandomPointInCircle();
         randomPoint.y = Random.Range(camara.gameObject.transform.position.y - heightRange, heightRange + camara.gameObject.transform.position.y);
 
-        EnemyType type = (EnemyType)Random.Range(0, enemies.Length);
+        EnemyType type = (EnemyType)Random.Range(0, Oleada[currentWaveIndex].enemies.Length);
 
         //enemyGO.GetComponent<Enemy>().type = (EnemyTypes)index;
 
-        GameObject enemy = enemies[(int)type];
+        GameObject enemy = Oleada[currentWaveIndex].enemies[(int)type];
         GameObject enemyGO = Instantiate(enemy, randomPoint, Quaternion.identity);
-
+ 
         Debug.Log("Enemy spawned at: " + randomPoint);
     }
 
@@ -64,4 +105,7 @@ public class EnemySpawner : MonoBehaviour
 
         return new Vector3(x, initialPosition.y, z);
     }
+
+
+
 }
