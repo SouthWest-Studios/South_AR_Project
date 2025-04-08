@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
         {
             MessageManager.Instance.RegisterEnemy(gameObject);
         }
+        this.transform.LookAt(camara.transform.position);
     }
 
     // Update is called once per frame

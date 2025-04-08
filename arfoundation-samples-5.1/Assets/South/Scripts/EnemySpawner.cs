@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-
+using TMPro;
 
 public enum EnemyType
 {
@@ -39,18 +39,26 @@ public class EnemySpawner : MonoBehaviour
     public static int enemiesInGame;
     private bool currentWaveRested = false;
 
+    public TextMeshProUGUI timerText;
 
+    
 
 
     void Start()
     {
         initialPosition = camara.gameObject.transform.position;
-    
+        spawnTimeCounter = Oleada[0].spawnRatio;
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (currentWaveIndex >= Oleada.Length)
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
 
         if (timeBetweenWavesCounter >= timeBetweenWaves)
         {
@@ -58,7 +66,8 @@ public class EnemySpawner : MonoBehaviour
             if (spawnTimeCounter >= Oleada[currentWaveIndex].spawnRatio)
             {
                 currentWaveRested = false;
-                enemiesInGame = Oleada[currentWaveIndex].cantidadEnemigos;
+                
+
                 if (Oleada[currentWaveIndex].cantidadEnemigos > 0)
                 {
                     SpawnEnemy();
@@ -73,21 +82,28 @@ public class EnemySpawner : MonoBehaviour
         }
         if (enemiesInGame <= 0)
         {
-
-            if (!currentWaveRested)
+            GameObject[] enemiesInGame = GameObject.FindGameObjectsWithTag("Enemy");
+            if(enemiesInGame.Length == 0)
             {
-                Debug.Log("index sumed");
-                currentWaveIndex++;
-                currentWaveRested = true;
-                timeBetweenWavesCounter = 0;
+                if (!currentWaveRested)
+                {
+                    currentWaveIndex++;
+                    currentWaveRested = true;
+                    timeBetweenWavesCounter = 0;
+                    spawnTimeCounter = Oleada[currentWaveIndex].spawnRatio;
+                }
+                timeBetweenWavesCounter = timeBetweenWavesCounter + Time.deltaTime;
+                if ((timeBetweenWaves - timeBetweenWavesCounter) >= 0)
+                {
+                    timerText.text = ((int)(timeBetweenWaves - timeBetweenWavesCounter)).ToString();
+                }
             }
-            timeBetweenWavesCounter = timeBetweenWavesCounter + Time.deltaTime;
+            
+            
         }
-        if (currentWaveIndex >= Oleada.Length)
-        {
-            SceneManager.LoadScene("MainMenu");
-        }
+        
 
+        
 
     }
 
