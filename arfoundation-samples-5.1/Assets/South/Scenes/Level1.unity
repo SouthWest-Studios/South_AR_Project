@@ -2314,7 +2314,7 @@ MonoBehaviour:
   camara: {fileID: 1378129416}
   Oleada:
   - cantidadEnemigos: 4
-    velocidadEnemigos: 0
+    velocidadEnemigos: 0.2
     spawnRatio: 3
     enemies:
     - {fileID: 2574905963696814817, guid: 4bf40e32aefd49643a22cd2814fa3fa9, type: 3}
@@ -2322,17 +2322,29 @@ MonoBehaviour:
     - {fileID: 2574905963696814817, guid: 269d0ef1aa2d18d4dac703a1163e7fd0, type: 3}
     - {fileID: 2574905963696814817, guid: 8355b4bc07cea9f44a08ca38a99f0b05, type: 3}
   - cantidadEnemigos: 3
-    velocidadEnemigos: 0
+    velocidadEnemigos: 0.5
     spawnRatio: 4
-    enemies: []
+    enemies:
+    - {fileID: 2574905963696814817, guid: 4bf40e32aefd49643a22cd2814fa3fa9, type: 3}
+    - {fileID: 2574905963696814817, guid: 84984ba3ddc34bf4dbdfc2a8b182fe0e, type: 3}
+    - {fileID: 2574905963696814817, guid: 269d0ef1aa2d18d4dac703a1163e7fd0, type: 3}
+    - {fileID: 2574905963696814817, guid: 8355b4bc07cea9f44a08ca38a99f0b05, type: 3}
   - cantidadEnemigos: 2
-    velocidadEnemigos: 0
+    velocidadEnemigos: 0.1
     spawnRatio: 3
-    enemies: []
+    enemies:
+    - {fileID: 2574905963696814817, guid: 4bf40e32aefd49643a22cd2814fa3fa9, type: 3}
+    - {fileID: 2574905963696814817, guid: 84984ba3ddc34bf4dbdfc2a8b182fe0e, type: 3}
+    - {fileID: 2574905963696814817, guid: 269d0ef1aa2d18d4dac703a1163e7fd0, type: 3}
+    - {fileID: 2574905963696814817, guid: 8355b4bc07cea9f44a08ca38a99f0b05, type: 3}
   - cantidadEnemigos: 2
-    velocidadEnemigos: 0
+    velocidadEnemigos: 1
     spawnRatio: 3
-    enemies: []
+    enemies:
+    - {fileID: 2574905963696814817, guid: 4bf40e32aefd49643a22cd2814fa3fa9, type: 3}
+    - {fileID: 2574905963696814817, guid: 84984ba3ddc34bf4dbdfc2a8b182fe0e, type: 3}
+    - {fileID: 2574905963696814817, guid: 269d0ef1aa2d18d4dac703a1163e7fd0, type: 3}
+    - {fileID: 2574905963696814817, guid: 8355b4bc07cea9f44a08ca38a99f0b05, type: 3}
 --- !u!114 &1559907691
 MonoBehaviour:
   m_ObjectHideFlags: 0

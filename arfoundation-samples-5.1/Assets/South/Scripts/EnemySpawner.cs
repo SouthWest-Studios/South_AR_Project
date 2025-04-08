@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 
@@ -32,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject camara = null;
     public Wave[] Oleada;
     private int currentWaveIndex = -1;
-    private float timeBetweenWaves = 5.0f;
+    private float timeBetweenWaves = 10.0f;
     private float timeBetweenWavesCounter = 0;
 
     public static int enemiesInGame;
@@ -56,6 +57,7 @@ public class EnemySpawner : MonoBehaviour
             
             if (spawnTimeCounter >= Oleada[currentWaveIndex].spawnRatio)
             {
+                currentWaveRested = false;
                 enemiesInGame = Oleada[currentWaveIndex].cantidadEnemigos;
                 if (Oleada[currentWaveIndex].cantidadEnemigos > 0)
                 {
@@ -67,15 +69,23 @@ public class EnemySpawner : MonoBehaviour
                 
             }
             spawnTimeCounter += Time.deltaTime;
+            
         }
         if (enemiesInGame <= 0)
         {
+
             if (!currentWaveRested)
             {
+                Debug.Log("index sumed");
                 currentWaveIndex++;
                 currentWaveRested = true;
+                timeBetweenWavesCounter = 0;
             }
             timeBetweenWavesCounter = timeBetweenWavesCounter + Time.deltaTime;
+        }
+        if (currentWaveIndex >= Oleada.Length)
+        {
+            SceneManager.LoadScene("MainMenu");
         }
 
 
@@ -92,7 +102,9 @@ public class EnemySpawner : MonoBehaviour
 
         GameObject enemy = Oleada[currentWaveIndex].enemies[(int)type];
         GameObject enemyGO = Instantiate(enemy, randomPoint, Quaternion.identity);
- 
+        enemyGO.GetComponent<Enemy>().speed = Oleada[currentWaveIndex].velocidadEnemigos;
+
+
         Debug.Log("Enemy spawned at: " + randomPoint);
     }
 
