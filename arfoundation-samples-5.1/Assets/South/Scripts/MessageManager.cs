@@ -68,28 +68,50 @@ public class MessageManager : MonoBehaviour
     {
         if (mainCamera == null) return;
 
+        // if is null remove
+        for (int i = enemies.Count - 1; i >= 0; i--)
+        {
+            if (enemies[i] == null)
+            {
+                Destroy(enemyIndicators[i].gameObject);
+                enemyIndicators.RemoveAt(i);
+                enemies.RemoveAt(i);
+            }
+        }
+
+        Vector2 screenCenter = new Vector2(Screen.width, Screen.height) / 2f;
+        float borderOffset = 50f;
+
         for (int i = 0; i < enemies.Count; i++)
         {
-            if (enemies[i] == null) continue;
-
-            // Get the enemy's world position and convert it to screen coordinates
             Vector3 screenPos = mainCamera.WorldToScreenPoint(enemies[i].transform.position);
+            RectTransform indicator = enemyIndicators[i];
 
-            // Check if the enemy is out of view
-            bool isOutOfView = screenPos.x < 0 || screenPos.x > Screen.width || screenPos.y < 0 || screenPos.y > Screen.height || screenPos.z < 0;
+            bool isBehind = screenPos.z < 0;
+            Vector2 dir = ((Vector2)screenPos - screenCenter).normalized;
 
-            if (isOutOfView)
+            if (screenPos.x >= 0 && screenPos.x <= Screen.width &&
+                screenPos.y >= 0 && screenPos.y <= Screen.height &&
+                !isBehind)
             {
-                // If the enemy is out of view, show the indicator
-                enemyIndicators[i].gameObject.SetActive(true);
-                // Set the indicator position to the screen center
-                enemyIndicators[i].anchoredPosition = new Vector2(Screen.width / 2, Screen.height / 2);
+                indicator.gameObject.SetActive(false);
             }
             else
             {
-                // If the enemy is in view, hide the indicator
-                enemyIndicators[i].gameObject.SetActive(false);
+                indicator.gameObject.SetActive(true);
+                if (isBehind) dir *= -1f;
+
+                Vector2 clampedScreenPos = screenCenter + dir * (Mathf.Min(screenCenter.x, screenCenter.y) - borderOffset);
+                Vector2 anchoredPos;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvasTransform as RectTransform, clampedScreenPos, null, out anchoredPos);
+                indicator.anchoredPosition = anchoredPos;
+
+                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                indicator.rotation = Quaternion.Euler(0, 0, angle - 90);
             }
         }
     }
+
+
 }
