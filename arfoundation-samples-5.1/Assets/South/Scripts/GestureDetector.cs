@@ -19,6 +19,16 @@ public class GestureDetector : MonoBehaviour
     public Image doDamage;
     public Color fireDamage, iceDamage, windDamage, earthDamage;
 
+    public static GestureDetector instance;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
         mainCamera = Camera.main; // Get the main camera

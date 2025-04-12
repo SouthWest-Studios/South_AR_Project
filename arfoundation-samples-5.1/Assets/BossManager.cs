@@ -17,11 +17,16 @@ public class BossManager : MonoBehaviour
     public float timeInvulneravility = 10.0f;
     public float alphaDuration = 0.5f;
 
+    public float radiusMovement = 3;
+    public float movementDuration = 3;
+    public float maxMinVerticalHight = 3;
+
 
     private Coroutine rotateCoroutine;
     private int lastFaceFacing = 0;
 
     private bool invulnerability = false;
+    private bool isMoving = false;
 
     private EnemyType[] bossTypes = { EnemyType.Earth, EnemyType.Fire, EnemyType.Wind, EnemyType.Ice };
 
@@ -37,6 +42,7 @@ public class BossManager : MonoBehaviour
     void Update()
     {
         BossFacing();
+        if (!isMoving) MoveBossToRandomPoint();
     }
 
 
@@ -151,6 +157,56 @@ public class BossManager : MonoBehaviour
         faceFacing = randomFaceFacing;
 
         StartCoroutine(Invulnerability());
+    }
+
+
+
+    void MoveBossToRandomPoint()
+    {
+        isMoving = true;
+        Vector3 randomPoint = RandomPointInCircle();
+        StartCoroutine(MoveBoss(randomPoint));
+    }
+
+    IEnumerator MoveBoss(Vector3 targetPosition)
+    {
+        float elapsedTime = 0f;
+
+        Vector3 startPos = transform.position;
+
+        Vector3 direction = (targetPosition - Camera.main.transform.position).normalized;
+        float targetY = targetPosition.y;
+        targetPosition = Camera.main.transform.position + direction * radiusMovement;
+        targetPosition.y = targetY;
+
+
+        while (elapsedTime < movementDuration)
+        {
+            float t = elapsedTime / movementDuration;
+            Vector3 newPos = Vector3.Lerp(startPos, targetPosition, t);
+            newPos = (newPos - Camera.main.transform.position).normalized * radiusMovement + Camera.main.transform.position;
+
+            
+            newPos.y = Mathf.Clamp(newPos.y, Camera.main.transform.position.y - maxMinVerticalHight, Camera.main.transform.position.y + maxMinVerticalHight);
+
+            transform.position = newPos;
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        isMoving = false;
+        transform.position = targetPosition;
+    }
+
+    public Vector3 RandomPointInCircle()
+    {
+        Vector3 initialPosition = Camera.main.transform.position;
+        float angle = Mathf.PI * Random.Range(0f, 1f);
+        float x = initialPosition.x + radiusMovement * Mathf.Cos(angle);
+        float z = initialPosition.z + radiusMovement * Mathf.Sin(angle);
+        float y = Random.Range(Camera.main.transform.position.y - maxMinVerticalHight, maxMinVerticalHight + Camera.main.transform.position.y);
+        return new Vector3(x, y, z);
     }
 
 }

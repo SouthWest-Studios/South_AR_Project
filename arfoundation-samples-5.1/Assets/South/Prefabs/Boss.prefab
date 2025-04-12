@@ -103,6 +103,10 @@ MonoBehaviour:
   rotationDuration: 0.3
   bossLife: 10
   timeInvulneravility: 10
+  alphaDuration: 0.5
+  radiusMovement: 3
+  movementDuration: 3
+  maxMinVerticalHight: 2
 --- !u!1 &4514147425754624368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1411,8 +1415,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.3584906, g: 0.25096145, b: 0.07609471, a: 0}
-        key1: {r: 0.745283, g: 0.50695604, b: 0.2988163, a: 1}
+        key0: {r: 0.8773585, g: 0.71420133, b: 0.07863116, a: 0}
+        key1: {r: 1, g: 0.06844188, b: 0, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6241,8 +6245,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.3584906, g: 0.25096145, b: 0.07609471, a: 0}
-        key1: {r: 0.745283, g: 0.50695604, b: 0.2988163, a: 1}
+        key0: {r: 0.8773585, g: 0.71420133, b: 0.07863116, a: 0}
+        key1: {r: 1, g: 0.06844188, b: 0, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}

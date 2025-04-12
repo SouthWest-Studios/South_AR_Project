@@ -41,7 +41,15 @@ public class EnemySpawner : MonoBehaviour
 
     public TextMeshProUGUI timerText;
 
-    
+    public static EnemySpawner instance;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
 
 
     void Start()
@@ -110,7 +118,7 @@ public class EnemySpawner : MonoBehaviour
     void SpawnEnemy()
     {
         Vector3 randomPoint = RandomPointInCircle();
-        randomPoint.y = Random.Range(camara.gameObject.transform.position.y - heightRange, heightRange + camara.gameObject.transform.position.y);
+        //randomPoint.y = Random.Range(camara.gameObject.transform.position.y - heightRange, heightRange + camara.gameObject.transform.position.y);
 
         EnemyType type = (EnemyType)Random.Range(0, Oleada[currentWaveIndex].enemies.Length);
 
@@ -121,13 +129,13 @@ public class EnemySpawner : MonoBehaviour
         enemyGO.GetComponent<Enemy>().speed = Oleada[currentWaveIndex].velocidadEnemigos;
     }
 
-    Vector3 RandomPointInCircle()
+    public Vector3 RandomPointInCircle()
     {
         initialPosition = camara.gameObject.transform.position;
         float angle = Mathf.PI * Random.Range(0f, 1f);
         float x = initialPosition.x + radius * Mathf.Cos(angle);
         float z = initialPosition.z + radius * Mathf.Sin(angle);
-
-        return new Vector3(x, initialPosition.y, z);
+        float y = Random.Range(camara.gameObject.transform.position.y - heightRange, heightRange + camara.gameObject.transform.position.y);
+        return new Vector3(x, y, z);
     }
 }
