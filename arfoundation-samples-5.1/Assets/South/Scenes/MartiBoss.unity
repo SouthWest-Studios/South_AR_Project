@@ -4042,6 +4042,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8591139100991281884, guid: 5153d3342e5c67541a4e0daa4b9eff87,
         type: 3}
+      propertyPath: bossLife
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8591139100991281884, guid: 5153d3342e5c67541a4e0daa4b9eff87,
+        type: 3}
       propertyPath: timerText
       value: 
       objectReference: {fileID: 1046892086}
