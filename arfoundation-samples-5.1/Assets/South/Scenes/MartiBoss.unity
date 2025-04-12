@@ -3050,6 +3050,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2018409399}
   m_CullTransparentMesh: 1
+--- !u!198 &2047443658 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6157025498022795755, guid: 5153d3342e5c67541a4e0daa4b9eff87,
+    type: 3}
+  m_PrefabInstance: {fileID: 590308187395407323}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2061489584
 GameObject:
   m_ObjectHideFlags: 0
@@ -4045,6 +4051,11 @@ PrefabInstance:
       propertyPath: timerText
       value: 
       objectReference: {fileID: 1046892086}
+    - target: {fileID: 8591139100991281884, guid: 5153d3342e5c67541a4e0daa4b9eff87,
+        type: 3}
+      propertyPath: changeFaseParticles
+      value: 
+      objectReference: {fileID: 2047443658}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

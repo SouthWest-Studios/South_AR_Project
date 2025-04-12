@@ -17,11 +17,6 @@ public class BossManager : MonoBehaviour
     public float rotationDuration = 0.3f;
     public float timeInvulneravility = 10.0f;
     public float alphaDuration = 0.5f;
-
-    public ParticleSystem[] particles;
-    public Gradient colorOverLifeTimeNormal;
-    public Gradient colorOverLifeTimeInvulnerability;
-
     [Range(0f, 1f)]  
     public float alphaTarget = 0.3f;
 
@@ -35,6 +30,11 @@ public class BossManager : MonoBehaviour
     public float timeBetweenEnemiesInInvulnerabilityTime = 1;
     public float speedEnemies = 0.2f;
 
+    [Header("Particles")]
+    public ParticleSystem[] particles;
+    public ParticleSystem changeFaseParticles;
+    public Gradient colorOverLifeTimeNormal;
+    public Gradient colorOverLifeTimeInvulnerability;
 
 
 
@@ -216,6 +216,7 @@ public class BossManager : MonoBehaviour
         if (invulnerability) return;
 
         bossLife--;
+        changeFaseParticles.Emit(40);
 
         int randomFaceFacing = Random.Range(0, 4);
         while (randomFaceFacing == faceFacing) { randomFaceFacing = Random.Range(0, 4); }
