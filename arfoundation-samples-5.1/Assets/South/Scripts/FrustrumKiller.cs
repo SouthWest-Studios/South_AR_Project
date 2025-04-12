@@ -24,6 +24,17 @@ public class FrustrumKiller : MonoBehaviour
             Destroy(enemy);
             EnemySpawner.enemiesInGame = EnemySpawner.enemiesInGame - 1;
         }
+
+
+        BossManager boss = FindObjectOfType<BossManager>();
+        if (boss && BossInFrustrum())
+        {
+            if(type == boss.GetBossType())
+            {
+                boss.TakeDamage();
+            }
+        }
+
     }
 
     public List<GameObject> GetEnemiesByType(EnemyType type)
@@ -41,6 +52,27 @@ public class FrustrumKiller : MonoBehaviour
         }
 
         return visibleObjects;
+    }
+
+    public bool BossInFrustrum()
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(arCamera);
+        BossManager boss = FindObjectOfType<BossManager>();
+
+        if (boss && boss.bossGraphics)
+        {
+            Renderer[] renderers = boss.bossGraphics.GetComponentsInChildren<Renderer>();
+
+            Bounds combinedBounds = renderers[0].bounds;
+            for (int i = 1; i < renderers.Length; i++)
+            {
+                combinedBounds.Encapsulate(renderers[i].bounds);
+            }
+
+            return GeometryUtility.TestPlanesAABB(planes, combinedBounds);
+        }
+
+        return false;
     }
 
 }
