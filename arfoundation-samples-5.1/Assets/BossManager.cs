@@ -69,7 +69,7 @@ public class BossManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (died && !diedChecked)
+        if (died)
         {
             timerDeadBoss -= Time.deltaTime;
             if (timerDeadBoss < 0)
@@ -98,6 +98,12 @@ public class BossManager : MonoBehaviour
                     psMain.loop = false;
                 }
                 dieParticles.Emit(20);
+
+                Enemy[] enemiesInGame = GameObject.FindObjectsOfType<Enemy>();
+                for(int i = 0; i<enemiesInGame.Length; i++)
+                {
+                    Destroy(enemiesInGame[i].gameObject);
+                }
 
             }
             return;
