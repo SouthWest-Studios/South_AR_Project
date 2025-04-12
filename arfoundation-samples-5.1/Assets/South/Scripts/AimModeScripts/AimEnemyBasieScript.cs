@@ -34,9 +34,10 @@ public class AimEnemyBasicScript : MonoBehaviour
         if (camara != null)
         {
             Vector3 direction = camara.transform.position - this.transform.position;
-
+            this.transform.LookAt(camara.transform.position);
             rb.velocity = direction * speed;
         }
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -44,7 +45,7 @@ public class AimEnemyBasicScript : MonoBehaviour
 
         if (other.gameObject.CompareTag("MainCamera"))
         {
-            gameManager.GetComponent<ARBallController>().ShowCanvas();
+            gameManager.GetComponent<AimARBallSpawner>().ShowCanvas();
             Destroy(this.gameObject);
             
         }

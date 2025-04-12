@@ -11,6 +11,8 @@ public class AimARBallSpawner : MonoBehaviour
 
     public float moveSpeed = 1f;    // Velocidad a la que se moverá la bola hacia adelante
 
+    public int lastTouched = 0;
+
     public GameObject canvas;
     void Start()
     {
@@ -23,7 +25,18 @@ public class AimARBallSpawner : MonoBehaviour
 
     void Update()
     {
-
+        if (Input.touchCount > 0)
+        {
+            if(lastTouched < Input.touchCount)
+            {
+                lastTouched = Input.touchCount;
+                SpawnBall();
+            }
+        }
+        else
+        {
+            lastTouched = 0;
+        }
     }
 
     void SpawnBall()

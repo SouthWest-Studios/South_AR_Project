@@ -34,7 +34,8 @@ public class AimEnemySpawner : MonoBehaviour
     {
         Vector3 randomPoint = RandomPointInCircle();
         randomPoint.y = Random.Range(camara.gameObject.transform.position.y - heightRange, heightRange + camara.gameObject.transform.position.y);
-        Instantiate(enemy, randomPoint, Quaternion.identity);
+        GameObject enemyGO = Instantiate(enemy, randomPoint, Quaternion.identity);
+        MessageManager.Instance.RegisterEnemy(enemyGO);
         Debug.Log("Enemy spawned at: " + randomPoint);
     }
 
