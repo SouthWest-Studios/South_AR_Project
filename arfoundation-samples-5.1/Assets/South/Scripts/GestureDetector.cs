@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GestureDetector : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class GestureDetector : MonoBehaviour
     private float trailDuration = 2f; // Duration before trail fades
     private bool isDrawingTrail = false; // Track if user is actively drawing
     private GameObject doubleTapEffect; // Object for the double-tap effect
+
+    public Image doDamage;
+    public Color fireDamage, iceDamage, windDamage, earthDamage;
 
     void Start()
     {
@@ -89,6 +93,7 @@ public class GestureDetector : MonoBehaviour
         {
             Debug.Log("Doble toque detectado");
             GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Earth);
+            doDamage.color = earthDamage;
             StartCoroutine(ShowDoubleTapEffect(Input.GetTouch(0).position));
         }
         lastTapTime = Time.time;
@@ -105,11 +110,13 @@ public class GestureDetector : MonoBehaviour
             if (swipeVector.y > 0)
             {
                 Debug.Log("Deslizar hacia arriba detectado");
+                doDamage.color = fireDamage;
                 GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Fire);
             }
             else
             {
                 Debug.Log("Deslizar hacia abajo detectado");
+                doDamage.color = iceDamage;
                 GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Ice);
             }
         }
@@ -124,6 +131,7 @@ public class GestureDetector : MonoBehaviour
         if (swipeVector.y > 0)
         {
             Debug.Log("Deslizar con dos dedos hacia arriba detectado");
+            doDamage.color = windDamage;
             GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Wind);
         }
     }
