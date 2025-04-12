@@ -126,7 +126,7 @@ public class EnemySpawner : MonoBehaviour
 
     Vector3 RandomPointInCircle()
     {
-
+        initialPosition = camara.gameObject.transform.position;
         float angle = Mathf.PI * Random.Range(0f, 1f);
         float x = initialPosition.x + radius * Mathf.Cos(angle);
         float z = initialPosition.z + radius * Mathf.Sin(angle);
