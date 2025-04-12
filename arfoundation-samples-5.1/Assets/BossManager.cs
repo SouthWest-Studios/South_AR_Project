@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossManager : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class BossManager : MonoBehaviour
     [Header("Particles")]
     public ParticleSystem[] particles;
     public ParticleSystem changeFaseParticles;
+    public ParticleSystem dieParticles;
     public Gradient colorOverLifeTimeNormal;
     public Gradient colorOverLifeTimeInvulnerability;
 
@@ -47,6 +49,10 @@ public class BossManager : MonoBehaviour
     private float timerStartCounter = 5.0f;
     private bool startingSpawner = false;
     public TextMeshProUGUI timerText;
+    private bool died = false;
+    private bool diedChecked = false;
+
+    private float timerDeadBoss = 5;
 
     private EnemyType[] bossTypes = { EnemyType.Earth, EnemyType.Fire, EnemyType.Wind, EnemyType.Ice };
 
@@ -63,6 +69,42 @@ public class BossManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (died && !diedChecked)
+        {
+            timerDeadBoss -= Time.deltaTime;
+            if (timerDeadBoss < 0)
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+            if (!diedChecked)
+            {
+                diedChecked = true;
+                StopAllCoroutines();
+                Transform[] childs = bossGraphics.GetComponentsInChildren<Transform>();
+
+                //Fuerzas cabezas
+                foreach (Transform child in childs)
+                {
+                    Vector3 explosionPosition = new Vector3(Random.Range(-10.0f, 10.0f), -150, Random.Range(-10.0f, 10.0f));
+                    Rigidbody rb = child.gameObject.AddComponent<Rigidbody>();
+                    rb.AddExplosionForce(500, transform.position, 100);
+                    rb.AddTorque(new Vector3(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f)), ForceMode.Impulse);
+                }
+
+                //Apagar particulas
+                foreach (ParticleSystem ps in particles)
+                {
+                    var psMain = ps.main;
+                    psMain.loop = false;
+                }
+                dieParticles.Emit(20);
+
+            }
+            return;
+
+        }
+
+
         BossFacing();
         if (!isMoving) MoveBossToRandomPoint();
 
@@ -213,9 +255,15 @@ public class BossManager : MonoBehaviour
 
     public void TakeDamage()
     {
-        if (invulnerability) return;
+        if (invulnerability || died) return;
 
         bossLife--;
+        if(bossLife <= 0)
+        {
+            died = true;
+            return;
+        }
+
         changeFaseParticles.Emit(40);
 
         int randomFaceFacing = Random.Range(0, 4);
