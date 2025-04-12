@@ -15,10 +15,14 @@ public class Enemy : MonoBehaviour
 
     public EnemyType type;
 
+    public GameObject player;
     void Start()
     {
         camara = GameObject.Find("Main Camera");
         gameManager = GameObject.Find("GameManager");
+        
+        player = GameObject.Find("Player");
+
         rb = this.GetComponent<Rigidbody>();
 
         if (MessageManager.Instance != null)
@@ -44,7 +48,9 @@ public class Enemy : MonoBehaviour
 
         if (other.gameObject.CompareTag("MainCamera"))
         {
+
             gameManager.GetComponent<ARBallController>().ShowCanvas();
+            player.GetComponent<Player>().TakeDamage(1);    
             Destroy(this.gameObject);
             EnemySpawner.enemiesInGame = EnemySpawner.enemiesInGame - 1;
         }
