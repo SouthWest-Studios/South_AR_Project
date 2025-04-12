@@ -103,15 +103,19 @@ MonoBehaviour:
   - {fileID: 2574905963696814817, guid: 269d0ef1aa2d18d4dac703a1163e7fd0, type: 3}
   - {fileID: 2574905963696814817, guid: 8355b4bc07cea9f44a08ca38a99f0b05, type: 3}
   bossGraphics: {fileID: 5955413455841909232}
+  bossLife: 10
   faceFacing: 0
   rotationDuration: 0.3
-  bossLife: 10
   timeInvulneravility: 10
   alphaDuration: 0.5
-  radiusMovement: 7
+  alphaTarget: 0.3
+  radiusMovement: 10
   movementDuration: 3
   maxMinVerticalHight: 2
-  timeBetweenEnemies: 1
+  timeBetweenEnemies: 3.5
+  timeBetweenEnemiesInInvulnerabilityTime: 1
+  speedEnemies: 0.2
+  timerText: {fileID: 0}
 --- !u!1 &4514147425754624368
 GameObject:
   m_ObjectHideFlags: 0

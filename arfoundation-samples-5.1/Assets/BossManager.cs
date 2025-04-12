@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BossManager : MonoBehaviour
@@ -10,18 +11,27 @@ public class BossManager : MonoBehaviour
     
 
 
-    [Header("Stats")]
+    [Header("Misc")]
+    public int bossLife = 10;
     public int faceFacing = 0;
     public float rotationDuration = 0.3f;
-    public int bossLife = 10;
     public float timeInvulneravility = 10.0f;
     public float alphaDuration = 0.5f;
 
-    public float radiusMovement = 3;
-    public float movementDuration = 3;
-    public float maxMinVerticalHight = 3;
+    [Range(0f, 1f)]  
+    public float alphaTarget = 0.3f;
 
-    public float timeBetweenEnemies = 1;
+    [Header("Movement")]
+    public float radiusMovement = 10;
+    public float movementDuration = 3;
+    public float maxMinVerticalHight = 2;
+
+    [Header("Enemies")]
+    public float timeBetweenEnemies = 3.5f;
+    public float timeBetweenEnemiesInInvulnerabilityTime = 1;
+    public float speedEnemies = 0.2f;
+
+
 
 
     private Coroutine rotateCoroutine;
@@ -29,6 +39,10 @@ public class BossManager : MonoBehaviour
 
     private bool invulnerability = false;
     private bool isMoving = false;
+
+    private float timerStartCounter = 5.0f;
+    private bool startingSpawner = false;
+    public TextMeshProUGUI timerText;
 
     private EnemyType[] bossTypes = { EnemyType.Earth, EnemyType.Fire, EnemyType.Wind, EnemyType.Ice };
 
@@ -38,6 +52,8 @@ public class BossManager : MonoBehaviour
     {
         MessageManager.Instance.RegisterEnemy(this.gameObject);
         lastFaceFacing = faceFacing;
+
+        
     }
 
     // Update is called once per frame
@@ -46,6 +62,19 @@ public class BossManager : MonoBehaviour
         BossFacing();
         if (!isMoving) MoveBossToRandomPoint();
 
+        if(timerStartCounter >= 0 && !startingSpawner)
+        {
+            timerStartCounter -= Time.deltaTime;
+
+            timerText.text = timerStartCounter.ToString("0");
+
+            if (timerStartCounter <= 0)
+            {
+                timerText.text = "";
+                startingSpawner = true;
+                StartCoroutine(SpawnNormalTimeEnemy());
+            }
+        }
 
     }
 
@@ -133,25 +162,39 @@ public class BossManager : MonoBehaviour
     IEnumerator Invulnerability()
     {
         invulnerability = true;
-        StartCoroutine(SpawnEnemy());
-        StartCoroutine(AlphaMaterial(0.3f));
+        StartCoroutine(SpawnInvulnerabilityTimeEnemy());
+        StartCoroutine(AlphaMaterial(alphaTarget));
         yield return new WaitForSeconds(timeInvulneravility);
         StartCoroutine(AlphaMaterial(1f));
         invulnerability = false;
     }
 
-    IEnumerator SpawnEnemy()
+    IEnumerator SpawnInvulnerabilityTimeEnemy()
     {
 
-        GameObject enemyGO = Instantiate(enemies[Random.Range(0,enemies.Length)], this.transform.position, Quaternion.identity);
-        enemyGO.GetComponent<Enemy>().speed = 0.3f;
-        yield return new WaitForSeconds(timeBetweenEnemies);
+        SpawnEnemy();
+        yield return new WaitForSeconds(timeBetweenEnemiesInInvulnerabilityTime);
         if (invulnerability)
         {
-            StartCoroutine(SpawnEnemy());
+            StartCoroutine(SpawnInvulnerabilityTimeEnemy());
         }
         
     }
+
+    IEnumerator SpawnNormalTimeEnemy()
+    {
+        SpawnEnemy();
+        yield return new WaitForSeconds(timeBetweenEnemies);
+        StartCoroutine(SpawnNormalTimeEnemy());
+
+    }
+
+    void SpawnEnemy()
+    {
+        GameObject enemyGO = Instantiate(enemies[Random.Range(0, enemies.Length)], this.transform.position, Quaternion.identity);
+        enemyGO.GetComponent<Enemy>().speed = speedEnemies;
+    }
+
 
     public EnemyType GetBossType()
     {

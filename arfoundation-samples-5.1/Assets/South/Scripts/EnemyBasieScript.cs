@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour
             Vector3 direction = camara.transform.position - this.transform.position;
 
             rb.velocity = direction * speed;
+            this.transform.LookAt(camara.transform.position);
         }
     }
 
