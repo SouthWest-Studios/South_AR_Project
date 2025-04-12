@@ -18,6 +18,10 @@ public class BossManager : MonoBehaviour
     public float timeInvulneravility = 10.0f;
     public float alphaDuration = 0.5f;
 
+    public ParticleSystem[] particles;
+    public Gradient colorOverLifeTimeNormal;
+    public Gradient colorOverLifeTimeInvulnerability;
+
     [Range(0f, 1f)]  
     public float alphaTarget = 0.3f;
 
@@ -162,12 +166,14 @@ public class BossManager : MonoBehaviour
     IEnumerator Invulnerability()
     {
         invulnerability = true;
+        ApplyGradientToParticles(colorOverLifeTimeInvulnerability);
         StartCoroutine(SpawnInvulnerabilityTimeEnemy());
         StartCoroutine(AlphaMaterial(alphaTarget));
         yield return new WaitForSeconds(timeInvulneravility);
         StartCoroutine(AlphaMaterial(1f));
         invulnerability = false;
-    }
+        ApplyGradientToParticles(colorOverLifeTimeNormal);
+    } 
 
     IEnumerator SpawnInvulnerabilityTimeEnemy()
     {
@@ -266,6 +272,16 @@ public class BossManager : MonoBehaviour
         float z = initialPosition.z + radiusMovement * Mathf.Sin(angle);
         float y = Random.Range(Camera.main.transform.position.y - maxMinVerticalHight, maxMinVerticalHight + Camera.main.transform.position.y);
         return new Vector3(x, y, z);
+    }
+
+    void ApplyGradientToParticles(Gradient gradient)
+    {
+        foreach (var particle in particles)
+        {
+            // Cambiar el gradiente de color sobre el lifetime
+            var colorModule = particle.colorOverLifetime;
+            colorModule.color = gradient; // Aplicar el gradiente
+        }
     }
 
 }
