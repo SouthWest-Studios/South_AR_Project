@@ -17,8 +17,6 @@ public class FrustrumKiller : MonoBehaviour
     {
         List<GameObject> enemyToDamage = GetEnemiesByType(type);
 
-        print(enemyToDamage);
-
         foreach (GameObject enemy in enemyToDamage)
         {
             Destroy(enemy);

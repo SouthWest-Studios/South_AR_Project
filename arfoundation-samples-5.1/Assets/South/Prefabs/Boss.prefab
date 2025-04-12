@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7493153160340941704}
@@ -97,16 +97,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7196f34ff3b64464b8e15e2116643e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: []
+  enemies:
+  - {fileID: 2574905963696814817, guid: 4bf40e32aefd49643a22cd2814fa3fa9, type: 3}
+  - {fileID: 2574905963696814817, guid: 84984ba3ddc34bf4dbdfc2a8b182fe0e, type: 3}
+  - {fileID: 2574905963696814817, guid: 269d0ef1aa2d18d4dac703a1163e7fd0, type: 3}
+  - {fileID: 2574905963696814817, guid: 8355b4bc07cea9f44a08ca38a99f0b05, type: 3}
   bossGraphics: {fileID: 5955413455841909232}
   faceFacing: 0
   rotationDuration: 0.3
   bossLife: 10
   timeInvulneravility: 10
   alphaDuration: 0.5
-  radiusMovement: 3
+  radiusMovement: 7
   movementDuration: 3
   maxMinVerticalHight: 2
+  timeBetweenEnemies: 1
 --- !u!1 &4514147425754624368
 GameObject:
   m_ObjectHideFlags: 0

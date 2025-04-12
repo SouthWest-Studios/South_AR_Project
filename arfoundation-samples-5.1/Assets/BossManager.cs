@@ -21,6 +21,8 @@ public class BossManager : MonoBehaviour
     public float movementDuration = 3;
     public float maxMinVerticalHight = 3;
 
+    public float timeBetweenEnemies = 1;
+
 
     private Coroutine rotateCoroutine;
     private int lastFaceFacing = 0;
@@ -43,6 +45,8 @@ public class BossManager : MonoBehaviour
     {
         BossFacing();
         if (!isMoving) MoveBossToRandomPoint();
+
+
     }
 
 
@@ -129,13 +133,25 @@ public class BossManager : MonoBehaviour
     IEnumerator Invulnerability()
     {
         invulnerability = true;
+        StartCoroutine(SpawnEnemy());
         StartCoroutine(AlphaMaterial(0.3f));
         yield return new WaitForSeconds(timeInvulneravility);
         StartCoroutine(AlphaMaterial(1f));
         invulnerability = false;
     }
 
+    IEnumerator SpawnEnemy()
+    {
 
+        GameObject enemyGO = Instantiate(enemies[Random.Range(0,enemies.Length)], this.transform.position, Quaternion.identity);
+        enemyGO.GetComponent<Enemy>().speed = 0.3f;
+        yield return new WaitForSeconds(timeBetweenEnemies);
+        if (invulnerability)
+        {
+            StartCoroutine(SpawnEnemy());
+        }
+        
+    }
 
     public EnemyType GetBossType()
     {
