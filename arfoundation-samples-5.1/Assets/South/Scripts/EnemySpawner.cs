@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject camara = null;
     public Wave[] Oleada;
     private int currentWaveIndex = -1;
-    public float timeBetweenWaves = 10.0f;
+    private float timeBetweenWaves = 10.0f;
     private float timeBetweenWavesCounter = 0;
 
     public static int enemiesInGame;
@@ -90,7 +90,7 @@ public class EnemySpawner : MonoBehaviour
                     currentWaveIndex++;
                     currentWaveRested = true;
                     timeBetweenWavesCounter = 0;
-                    if(currentWaveIndex < Oleada.Length) spawnTimeCounter = Oleada[currentWaveIndex].spawnRatio;
+                    spawnTimeCounter = Oleada[currentWaveIndex].spawnRatio;
                 }
                 timeBetweenWavesCounter = timeBetweenWavesCounter + Time.deltaTime;
                 if ((timeBetweenWaves - timeBetweenWavesCounter) >= 0)
@@ -119,6 +119,9 @@ public class EnemySpawner : MonoBehaviour
         GameObject enemy = Oleada[currentWaveIndex].enemies[(int)type];
         GameObject enemyGO = Instantiate(enemy, randomPoint, Quaternion.identity);
         enemyGO.GetComponent<Enemy>().speed = Oleada[currentWaveIndex].velocidadEnemigos;
+
+
+        Debug.Log("Enemy spawned at: " + randomPoint);
     }
 
     Vector3 RandomPointInCircle()
@@ -130,6 +133,7 @@ public class EnemySpawner : MonoBehaviour
 
         return new Vector3(x, initialPosition.y, z);
     }
+
 
 
 }
