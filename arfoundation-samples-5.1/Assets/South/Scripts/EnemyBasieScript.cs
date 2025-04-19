@@ -16,11 +16,14 @@ public class Enemy : MonoBehaviour
     public EnemyType type;
 
     public GameObject player;
+
+    EnemySpawner scriptSpawner;
     void Start()
     {
         camara = GameObject.Find("Main Camera");
         gameManager = GameObject.Find("GameManager");
-        
+        scriptSpawner = gameManager.GetComponent<EnemySpawner>();
+
         player = GameObject.Find("Player");
 
         rb = this.GetComponent<Rigidbody>();
@@ -51,9 +54,15 @@ public class Enemy : MonoBehaviour
         {
 
             gameManager.GetComponent<ARBallController>().ShowCanvas();
-            player.GetComponent<Player>().TakeDamage(1);    
+           
+            if (!scriptSpawner.isInfinite)
+            {
+                player.GetComponent<Player>().TakeDamage(1);
+                EnemySpawner.enemiesInGame = EnemySpawner.enemiesInGame - 1;
+            }
+            
             Destroy(this.gameObject);
-            EnemySpawner.enemiesInGame = EnemySpawner.enemiesInGame - 1;
+            
         }
     }
 }

@@ -43,6 +43,8 @@ public class EnemySpawner : MonoBehaviour
 
     public static EnemySpawner instance;
 
+    public bool isInfinite = false;
+
     private void Awake()
     {
         if(instance == null)
@@ -56,7 +58,10 @@ public class EnemySpawner : MonoBehaviour
     {
         initialPosition = camara.gameObject.transform.position;
         spawnTimeCounter = Oleada[0].spawnRatio;
-
+        if (isInfinite)
+        {
+            currentWaveIndex = 0;
+        }
 
     }
 
@@ -65,7 +70,15 @@ public class EnemySpawner : MonoBehaviour
     {
         if (currentWaveIndex >= Oleada.Length)
         {
-            SceneManager.LoadScene("MainMenu");
+            if (isInfinite)
+            {
+                currentWaveIndex = 0;
+            }
+            else
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+               
         }
 
         if (timeBetweenWavesCounter >= timeBetweenWaves)
@@ -80,7 +93,10 @@ public class EnemySpawner : MonoBehaviour
                 {
                     SpawnEnemy();
                     spawnTimeCounter = 0;
-                    Oleada[currentWaveIndex].cantidadEnemigos--;
+                    if (!isInfinite)
+                    {
+                        Oleada[currentWaveIndex].cantidadEnemigos--;
+                    }
                 }
 
                 
@@ -95,6 +111,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 if (!currentWaveRested)
                 {
+                    InstructionsController.instance.ShowInstruccions();
                     currentWaveIndex++;
                     currentWaveRested = true;
                     timeBetweenWavesCounter = 0;
