@@ -48,9 +48,7 @@ public class InstructionsController : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("ANTES");
         yield return new WaitForSeconds(5);
-        Debug.Log("dESPUES");
 
         elapsed = 0f;
         while (elapsed < durationToggle)

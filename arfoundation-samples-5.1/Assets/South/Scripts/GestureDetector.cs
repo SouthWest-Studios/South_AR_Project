@@ -137,6 +137,24 @@ public class GestureDetector : MonoBehaviour
                 skillAudio[1].Play();
             }
         }
+
+        if (Mathf.Abs(swipeVector.y) < Mathf.Abs(swipeVector.x))
+        {
+            if (swipeVector.x > 0)
+            {
+                Debug.Log("Deslizar hacia derecha detectado");
+                doDamage.color = windDamage;
+                GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Wind);
+                skillAudio[3].Play();
+            }
+            else
+            {
+                Debug.Log("Deslizar hacia izquierda detectado");
+                doDamage.color = windDamage;
+                GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Wind);
+                skillAudio[3].Play();
+            }
+        }
     }
 
     // Detects two-finger swipe up gesture

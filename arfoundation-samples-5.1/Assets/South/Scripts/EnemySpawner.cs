@@ -44,6 +44,7 @@ public class EnemySpawner : MonoBehaviour
     public static EnemySpawner instance;
 
     public bool isInfinite = false;
+    public TextMeshProUGUI waveText;
 
     private void Awake()
     {
@@ -68,6 +69,12 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isInfinite)
+        {
+            waveText.text = "(" + (currentWaveIndex + 1) + "/5)";
+        }
+            
+
         if (currentWaveIndex >= Oleada.Length)
         {
             if (isInfinite)
@@ -83,7 +90,11 @@ public class EnemySpawner : MonoBehaviour
 
         if (timeBetweenWavesCounter >= timeBetweenWaves)
         {
-            
+            if (currentWaveIndex == -1)
+            {
+                currentWaveIndex = 0;
+            }
+
             if (spawnTimeCounter >= Oleada[currentWaveIndex].spawnRatio)
             {
                 currentWaveRested = false;
@@ -109,7 +120,7 @@ public class EnemySpawner : MonoBehaviour
             GameObject[] enemiesInGame = GameObject.FindGameObjectsWithTag("Enemy");
             if(enemiesInGame.Length == 0)
             {
-                if (!currentWaveRested)
+                if (!currentWaveRested && currentWaveIndex != -1 && Oleada[currentWaveIndex].cantidadEnemigos <= 0)
                 {
                     InstructionsController.instance.ShowInstruccions();
                     currentWaveIndex++;
@@ -117,10 +128,18 @@ public class EnemySpawner : MonoBehaviour
                     timeBetweenWavesCounter = 0;
                     if (currentWaveIndex < Oleada.Length) spawnTimeCounter = Oleada[currentWaveIndex].spawnRatio;
                 }
+                
                 timeBetweenWavesCounter = timeBetweenWavesCounter + Time.deltaTime;
                 if ((timeBetweenWaves - timeBetweenWavesCounter) >= 0)
                 {
                     timerText.text = ((int)(timeBetweenWaves - timeBetweenWavesCounter)).ToString();
+                }
+                else
+                {
+                    if (currentWaveIndex == -1)
+                    {
+                        currentWaveIndex = 0;
+                    }
                 }
             }
             
