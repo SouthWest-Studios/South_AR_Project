@@ -21,12 +21,16 @@ public class GestureDetector : MonoBehaviour
 
     public static GestureDetector instance;
 
+    private AudioSource[] skillAudio;
+
     private void Awake()
     {
         if(instance == null)
         {
             instance = this;
         }
+
+        skillAudio = GetComponents<AudioSource>();
     }
 
     void Start()
@@ -105,6 +109,7 @@ public class GestureDetector : MonoBehaviour
             GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Earth);
             doDamage.color = earthDamage;
             StartCoroutine(ShowDoubleTapEffect(Input.GetTouch(0).position));
+            skillAudio[2].Play();
         }
         lastTapTime = Time.time;
     }
@@ -122,12 +127,14 @@ public class GestureDetector : MonoBehaviour
                 Debug.Log("Deslizar hacia arriba detectado");
                 doDamage.color = fireDamage;
                 GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Fire);
+                skillAudio[0].Play();
             }
             else
             {
                 Debug.Log("Deslizar hacia abajo detectado");
                 doDamage.color = iceDamage;
                 GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Ice);
+                skillAudio[1].Play();
             }
         }
     }
@@ -143,6 +150,7 @@ public class GestureDetector : MonoBehaviour
             Debug.Log("Deslizar con dos dedos hacia arriba detectado");
             doDamage.color = windDamage;
             GetComponent<FrustrumKiller>().KillEnemiesByType(EnemyType.Wind);
+            skillAudio[3].Play();
         }
     }
 
