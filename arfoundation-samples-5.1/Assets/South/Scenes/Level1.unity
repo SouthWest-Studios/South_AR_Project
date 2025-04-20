@@ -637,7 +637,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &457975072
 Transform:
   m_ObjectHideFlags: 0
@@ -1582,7 +1582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -100.00006, y: -100}
+  m_AnchoredPosition: {x: -300, y: -100}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &971806831
@@ -2925,9 +2925,9 @@ MonoBehaviour:
   spawnTime: 5
   camara: {fileID: 1378129416}
   Oleada:
-  - cantidadEnemigos: 50
+  - cantidadEnemigos: 4
     velocidadEnemigos: 0.2
-    spawnRatio: 0.2
+    spawnRatio: 3
     enemies:
     - {fileID: 2574905963696814817, guid: 4bf40e32aefd49643a22cd2814fa3fa9, type: 3}
     - {fileID: 2574905963696814817, guid: 84984ba3ddc34bf4dbdfc2a8b182fe0e, type: 3}
@@ -2968,6 +2968,7 @@ MonoBehaviour:
   timeBetweenWaves: 4
   timerText: {fileID: 1046892086}
   isInfinite: 0
+  waveText: {fileID: 14816561}
 --- !u!114 &1559907691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3875,7 +3876,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2078425670
 Transform:
   m_ObjectHideFlags: 0
