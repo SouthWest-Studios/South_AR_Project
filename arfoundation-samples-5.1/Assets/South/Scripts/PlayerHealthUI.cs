@@ -29,7 +29,7 @@ public class PlayerHealthUI : MonoBehaviour
         for (int i = 0; i < maxLives; i++)
         {
             GameObject heart = Instantiate(heartPrefab, heartsParent);
-            heart.transform.position = new Vector3(heart.transform.position.x + i * 50f, heart.transform.position.y, heart.transform.position.z);
+            heart.transform.position = new Vector3(heart.transform.position.x + i * 100f, heart.transform.position.y, heart.transform.position.z);
             hearts.Add(heart);
         }
     }
