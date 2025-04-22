@@ -98,6 +98,18 @@ public class MainMenuController : MonoBehaviour, IPointerDownHandler
         }
     }
 
+    public void OnExitModeButton()
+    {
+        // Esto cierra el juego en una build
+        Application.Quit();
+
+        // Esto es útil para probar en el editor (solo funciona en el editor de Unity)
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
+
     public void OnSettingsButton()
     {
         HideMainButtons();
