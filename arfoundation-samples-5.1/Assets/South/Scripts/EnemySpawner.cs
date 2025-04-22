@@ -83,7 +83,7 @@ public class EnemySpawner : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene("MainMenu");
+                SceneManager.LoadScene("LevelPassed");
             }
                
         }
